@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+
+  rechecker-flask-web:
+    build: ../../recheck_flask_web
+    restart: always
+#    command: uvicorn app:app --reload --port 8080 --host 0.0.0.0
+    ports:
+      - 5009:5000
+    networks:
+      - shared
+
+networks:
+  shared:
+    external:
+      name: shared

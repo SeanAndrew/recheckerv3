@@ -1,0 +1,53 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+#  rechecker-add-new:
+#    build: ../../recheck_add_new
+#    depends_on:
+#      - "mysql"
+##    volumes:
+##      - .:/usr/src/app
+#    restart: always
+#    command: uvicorn app:app --reload --port 8080 --host 0.0.0.0
+#    ports:
+#      - 5004:8080
+#
+  rechecker-query-db:
+    build: ../../recheck_query_db
+#    depends_on:
+#      - "mysql"
+#      volumes:
+#        - .:/usr/src/app
+    restart: always
+    command: uvicorn app:app --reload --port 8080 --host 0.0.0.0
+    ports:
+      - 5005:8080
+    networks:
+      - shared
+#
+#  rechecker-delete-old-data:
+#    build: ../../recheck_delete_old
+#    depends_on:
+#      - "mysql"
+##      volumes:
+##        - .:/usr/src/app
+#    restart: always
+#    command: uvicorn app:app --reload --port 8080 --host 0.0.0.0
+#    ports:
+#      - 5006:8080
+
+#    rechecker-schedule-db-sync:
+#      build: ./recheck_schedule_db_sync
+#      depends_on:
+#        - "rechecker-update-db"
+#        - "rechecker-query-db"
+#        - "rechecker-delete-old-data"
+#      volumes:
+#        - .:/usr/src/app
+
+networks:
+  shared:
+    external:
+      name: shared

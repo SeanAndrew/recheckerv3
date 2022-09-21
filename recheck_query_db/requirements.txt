@@ -1,0 +1,6 @@
+sqlmodel==0.0.5
+fastapi==0.70.0
+psycopg2-binary==2.9.2
+uvicorn==0.15.0
+python-sql==0.9
+mysql-connector==2.2.9

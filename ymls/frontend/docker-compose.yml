@@ -1,0 +1,59 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+  rechecker-endpoint:
+    build: ../../recheck_endpoint
+    depends_on:
+      - "mongo"
+#    volumes:
+#      - .:/usr/src/app
+    restart: always
+    command: uvicorn app:app --reload --port 8080 --host 0.0.0.0
+    ports:
+      - 5001:8080
+    networks:
+      - shared
+
+  rechecker-http:
+    build: ../../recheck_http
+    depends_on:
+      - "mongo"
+#      volumes:
+#        - .:/usr/src/app
+    restart: always
+    command: uvicorn app:app --reload --port 8080 --host 0.0.0.0
+    ports:
+      - 5002:8080
+    networks:
+      - shared
+
+  rechecker-dns:
+    build: ../../recheck_dns
+    depends_on:
+      - "mongo"
+#      volumes:
+#        - .:/usr/src/app
+    restart: always
+    command: uvicorn app:app --reload --port 8080 --host 0.0.0.0
+    ports:
+      - 5003:8080
+    networks:
+      - shared
+
+  rechecker-schedule-healthcheck:
+    build: ../../recheck_schedule_healthcheck_sync
+    depends_on:
+      - "rechecker-endpoint"
+      - "rechecker-http"
+      - "rechecker-dns"
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - shared
+
+networks:
+  shared:
+    external:
+      name: shared
